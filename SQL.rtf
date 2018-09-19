@@ -1,0 +1,358 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1046{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang22\f0\fs22 Ol\'e1, estarei disponibilizando uma serie de conteudos no segmento SQL e MYSQL, estarei utilizando o MYSQL query Browser e XAMPP.\par
+\par
+    Dicion\'e1rio de comandos\par
+    Modelo Entidade Relacionamento(MER)\par
+    Inser\'e7\'e3o de dados\par
+    Comandos de altera\'e7\'e3o\par
+    Comandos de sele\'e7\'e3o\par
+    Stored Procedures (Procedimentos Armazenados)\par
+\par
+Dicion\'e1rio de comandos\par
+\par
+PHP:\par
+-- EXCLUIR COLUNA\par
+ALTER TABLE nome_tabela DROP COLUMN nome_coluna\par
+\par
+-- ADICIONAR COLUNA\par
+ALTER TABLE nome_tabela ADD COLUMN nome_coluna TIPO\par
+\par
+-- ALTERAR COLUNA\par
+ALTER TABLE nome_tabela MODIFY COLUMN nome_coluna TIPO\par
+\par
+-- EXCLUIR TABELA\par
+DROP TABLE nome_tabela\par
+\par
+-- LIMITAR SELECT\par
+SELECT nome_campos FROM nome_tabela LIMIT numero_limite\par
+\par
+-- INSERIR DADOS\par
+INSERT INTO nome_tabela VALUES (valores)\par
+\par
+-- EXCLUINDO DADOS\par
+TRUNCATE TABLE nome_tabela\par
+\par
+-- ATUALIZANDO DADOS\par
+UPDATE nome_tabela SET nome_coluna = novo_valor\par
+\par
+--SELECIONANDO DADOS\par
+SELECT nome_coluna FROM nome_tabela\par
+\par
+--SELECIONANDO DADOS SEM REPETIR\par
+SELECT DISTINCT nome_coluna_distinguida FROM nome_tabela\par
+\par
+--SELECIONANDO DADOS E ORGANIZANDO\par
+SELECT nome_coluna FROM nome_tabela ORDER BY nome_coluna\par
+\par
+-- SELECIONANDO COM WHERE\par
+SELECT nome_coluna FROM nome_tabela WHERE condi\'e7ao\par
+\par
+--SELECIONANDO E COM CLAUSURA AND E OR\par
+SELECT nome_coluna FROM nome_tabela WHERE condi\'e7\'e3o AND/OR condi\'e7ao\par
+\par
+-- SELECIONANDO CAMPOS DE TABELAS DIFERENTES (tipos de dados tem que ser iguais)\par
+SELECT nome_coluna FROM nome_tabela UNION/ UNION ALL SELECT nome_coluna2 FROM tb_tabela2\par
+\par
+-- CRIANDO TABELA E INSERINDO DADOS DE UMA SELE\'c7\'c3O\par
+CREATE TABLE nome_nova_tabela SELECT nome_campo FROM nome_tabela\par
+\par
+-- SELECIONAR O MENOR NUMERO DE UMA LISTA\par
+SELECT MIN(coluna_numeros) FROM nome_tabela\par
+\par
+-- SELECIONAR O MAIOR NUMERO DE UMA LISTA\par
+SELECT MAX(coluna_numeros) FROM nome_tabela\par
+\par
+-- SELECIONAR QUANTOS CAMPOS TEM REGISTRADO\par
+SELECT COUNT(nome_coluna) FROM nome_tabela\par
+\par
+-- SELECIONAR MEDIA\par
+SELECT AVG(coluna_numeros) FROM nome_tabela\par
+\par
+-- MOSTRAR SOMA\par
+SELECT SUM(coluna_numeros) FROM nome_tabela\par
+\par
+-- SELECIONANDO DADOS COMUNS EM 2 TABELAS DIFERENTES\par
+SELECT nome_campo FROM primeira_tabela INNER JOIN segunda_tabela ON\par
+tabela1.campoComum = tabela2.campoComum\par
+\par
+-- SELECIONANDO DADOS DA TABELA ESQUERDA MESMO QUE N\'c3O TENHA EM COMUM COM A TABELA DA DIREITA\par
+SELECT nome_campo FROM primeira_tabela LEFT JOIN segunda_tabela ON\par
+tabela1.campoComum = tabela2.campoComum\par
+\par
+\par
+-- SELECIONANDO DADOS DA TABELA DIREITA MESMO QUE N\'c3O TENHA EM COMUM COM A TABELA DA ESQUERDA\par
+SELECT nome_campo FROM primeira_tabela RIGHT JOIN segunda_tabela ON\par
+tabela1.campoComum = tabela2.campoComum\par
+\par
+-- SELECIONANDO DADOS DA TABELA DIREITA E DA ESQUERDA MESMO QUE NAO SEJAM COMUNS\par
+SELECT nome_campo FROM primeira_tabela FULL JOIN segunda_tabela ON\par
+tabela1.campoComum = tabela2.campoComum\par
+\par
+-- SELEC\'c3O DE DADOS QUE EST\'c3O JA DETERMINADOS NA PESQUISA\par
+SELECT nome_campos FROM nome_tabela WHERE nome_campo IN ou NOT IN (Valores)\par
+\par
+-- CRIANDO PROCEDURE\par
+DELIMITER$$\par
+\par
+    CREATE PROCEDURE nomeProcedure(parametros)\par
+    BEGIN\par
+        CODIGO\par
+    END$$\par
+\par
+DELIMITER;\par
+\par
+-- RENOMEANDO TABELA\par
+RENAME TABLE nome_tabela TO novo_nome_tabela\par
+\par
+-- SELECIONANDO REGISTROS POR NOME\par
+SELECT nome_coluna FROM nome_tabela WHERE LIKE/NOT LIKE 'String comparativa'/'_string comparativa'/'% string comparativa'\par
+\par
+-- SELECIONANDO REGISTROS por padroes de letras\par
+SELECT nome_coluna FROM nome_tabela REGEXP '^[letras]'/'[letras]'/'[letras]$'\par
+\par
+Modelo Entidade Relacionamento\par
+[\u8203?IMG]\par
+\par
+\u8203?\par
+Script do banco\u8203?\par
+PHP:\par
+CREATE DATABASE db_MommyHealth;\par
+\par
+USE db_MommyHealth;\par
+\par
+CREATE TABLE tb_tipoMedico(\par
+\par
+  IDtipoMedico INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\par
+  nomeTipoMedico VARCHAR(20)\par
+);\par
+\par
+CREATE TABLE tb_tipoAcompanhante(\par
+\par
+  IDtipoAcompanhante INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\par
+  nomeTipoAcompanhante VARCHAR(20)\par
+);\par
+\par
+CREATE TABLE tb_medico(\par
+\par
+  IDmedico INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\par
+  IDtipoMedico INT NOT NULL,\par
+  nomeMedico VARCHAR(30),\par
+  sobrenomeMedico VARCHAR(60),\par
+  emailMedico VARCHAR(50),\par
+  FOREIGN KEY (IDtipoMedico) REFERENCES tb_tipoMedico(IDtipoMedico)\par
+);\par
+\par
+CREATE TABLE tb_usuario(\par
+\par
+  IDusuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\par
+  IDmedico INT NOT NULL,\par
+  nomeUsuario VARCHAR(30),\par
+  sobrenomeUsuario VARCHAR(60),\par
+  dataNascimento DATE,\par
+  senha VARCHAR(12),\par
+  meses CHAR(1),\par
+  imagem VARCHAR(255),\par
+  email VARCHAR(50),\par
+  rua VARCHAR(45),\par
+  cep CHAR(9),\par
+  cidade VARCHAR(45),\par
+  uf CHAR(2),\par
+  FOREIGN KEY (IDmedico) REFERENCES tb_medico(IDmedico)\par
+);\par
+\par
+CREATE TABLE tb_contatoMovel(\par
+\par
+  IDcontatoMovel INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\par
+  IDusuario INT NOT NULL,\par
+  telefone VARCHAR(12),\par
+  celular VARCHAR(12),\par
+  FOREIGN KEY (IDusuario) REFERENCES tb_usuario(IDusuario)\par
+);\par
+\par
+CREATE TABLE tb_exame(\par
+\par
+  IDexame INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\par
+  IDusuario INT NOT NULL,\par
+  nome VARCHAR(20),\par
+  descricao VARCHAR(200),\par
+  datae DATE,\par
+  FOREIGN KEY IDusuario REFERENCES tb_usuario(IDusuario)\par
+);\par
+\par
+CREATE TABLE tb_diario(\par
+\par
+  IDdiario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\par
+  IDusuario INT NOT NULL,\par
+  meses CHAR(2),\par
+  temperatura CHAR(2),\par
+  pressao VARCHAR(3),\par
+  medicamentos VARCHAR(255),\par
+  examesFeitos VARCHAR(255),\par
+  sensacao VARCHAR(255),\par
+  FOREIGN KEY IDusuario REFERENCES tb_usuario(IDusuario)\par
+);\par
+\par
+CREATE TABLE tb_acompanhante(\par
+\par
+  IDacompanhante INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\par
+  IDusuario INT NOT NULL,\par
+  IDtipoAcompanhante INT NOT NULL,\par
+  nome VARCHAR(50),\par
+  email VARCHAR(50),\par
+  FOREIGN KEY IDusuario REFERENCES tb_usuario(IDusuario),\par
+  FOREIGN KEY IDtipoAcompanhante REFERENCES tb_tipoAcompanhante(IDtipoAcompanhante)\par
+[/INDENT]\par
+);\par
+Inserindo dados\par
+INSERT INTO nome_tabela VALUES (valores)\par
+\par
+PHP:\par
+INSERT INTO tb_tipoAcompanhante VALUES\par
+(DEFAULT,'Av\'f3'),\par
+(DEFAULT,'Av\'f4'),\par
+(DEFAULT,'Cunhada'),\par
+(DEFAULT,'Cunhado'),\par
+(DEFAULT,'Esposa'),\par
+(DEFAULT,'Esposo'),\par
+(DEFAULT,'Filha'),\par
+(DEFAULT,'Filho'),\par
+(DEFAULT,'Irm\'e3'),\par
+(DEFAULT,'Irm\'e3o'),\par
+(DEFAULT,'Madrasta'),\par
+(DEFAULT,'Madrinha'),\par
+(DEFAULT,'M\'e3e'),\par
+(DEFAULT,'Neta'),\par
+(DEFAULT,'Neto'),\par
+(DEFAULT,'Padrasto'),\par
+(DEFAULT,'Pai'),\par
+(DEFAULT,'Prima'),\par
+(DEFAULT,'Primo'),\par
+(DEFAULT,'Sobrinha'),\par
+(DEFAULT,'Sobrinho'),\par
+(DEFAULT,'Sogra'),\par
+(DEFAULT,'Sogro'),\par
+(DEFAULT,'Tia'),\par
+(DEFAULT,'Tio');\par
+\par
+INSERT INTO tb_medico VALUES\par
+(DEFAULT, 31, 'Fernando', 'Henrique', 'FeHenrique@hotmail.com'),\par
+(DEFAULT, 32, 'Fernanda', 'Miriam', 'FernandaMiriam@gmail.com'),\par
+(DEFAULT, 32, 'Pedro', 'Moreira de Souza', 'MoreiraSouza@gmail.com'),\par
+(DEFAULT, 33, 'Matheus', 'Oliveira da Silva', 'MateusOli@hotmail.com'),\par
+(DEFAULT, 34, 'Vinicius', 'Fernandes da Silva', 'ViniFS@bol.com'),\par
+(DEFAULT, 35, 'Flavio', 'Martins', 'FlavinhoMartins@hotmail.com'),\par
+(DEFAULT, 36, 'Donavan', 'Pereira', 'DodoPereira@hotmail.com');\par
+\par
+INSERT INTO tb_usuario VALUES\par
+(DEFAULT,5,'Rochele','Moreira Garcia','1999-01-02','123456','0','img','RocheleGarcia@hotmail.com','Rua aviador edu Pereira','11326080','S\'e3o Paulo','SP'),\par
+(DEFAULT,6,'Miriam','Ferreira de Lima','1998-02-03','645231','1','img2','MiriamLima@hotmail.com','Avenida Monsales Garcia','12835458','Minas Gerais','MG'),\par
+(DEFAULT,4,'Roberta','D'' Assis Lima','1997-04-05','1252455','0','img3','Robertinha@hotmail.com','Avenida Rio Branco','83545255','S\'e3o Paulo','SP'),\par
+(DEFAULT,5,'Fabiana','Silva Oliveira','1995-05-05','835211','3','img4','FabiSilva@hotmail.com','Rua Professor Apr\'edgio Gonzaga','352353','S\'e3o Paulo','SP');\par
+\par
+INSERT INTO tb_exame VALUES\par
+(DEFAULT,13,'Exame de Sangue','Coletar o sangue para conseguir informa\'e7\'f5es relevantes','2018-02-02'),\par
+(DEFAULT,20,'Exame de Fezes','Coletar as fazes para conseguir informa\'e7\'f5es rleevantes','2018-03-05'),\par
+(DEFAULT,23,'Exame do Pezinho','Verificar p\'e9 do bebe para saber saude de determinada area','2018-07-08');\par
+Aten\'e7\'e3o: O uso do AUTO_INCREMENT na coluna PRIMARY KEY, transforma os numeros de computador para computador. Portanto veja quais os codigos da chave primaria da tabela TipoAcompanhante, pq pode ser diferente do meu, que come\'e7ou em 31,32...\par
+\par
+Comando de altera\'e7\'e3o\par
+ALTER TABLE nome_tabela OP\'c7\'c3O nome_coluna TIPO\par
+PHP:\par
+\par
+-- Adicionando uma coluna na tabela\par
+\par
+ALTER TABLE tb_contatoMovel ADD COLUMN colunaTeste CHAR(8);\par
+\par
+-- Removendo uma coluna na tabela\par
+\par
+ALTER TABLE tb_contatoMovel DROP COLUMN colunaTeste;\par
+\par
+-- Alterando tipo de uma coluna\par
+\par
+ALTER TABLE tb_contatoMovel MODIFY celular VARCHAR(20);\par
+\par
+-- Excluindo tabela\par
+\par
+DROP TABLE tb_contatoMovel;\par
+\par
+-- Alterando dados\par
+\par
+UPDATE tb_tipoMedico SET nomeTipoMedico = 'Novo dado' WHERE IDtipoMedico = 31;\par
+\par
+-- excluindo todos dados\par
+\par
+TRUNCATE TABLE tb_tipoMedico;\par
+\par
+Comando de sele\'e7\'e3o\par
+SELECT nome_coluna FROM nome_tabela\par
+PHP:\par
+-- Selecione tudo da tabela tipoacompanhante\par
+\par
+SELECT * FROM tb_tipoacompanhante;\par
+\par
+-- Selecione apenas o nome dos acompanhantes\par
+\par
+SELECT nomeTipoAcompanhante FROM tb_tipoacompanhante;\par
+\par
+-- Selecione apenas os primeiros 5 tipos\par
+\par
+SELECT nomeTipoAcompanhante FROM tb_tipoacompanhante LIMIT 5;\par
+\par
+-- Selecione com uma condi\'e7\'e3o, apenas os acompanhantes que tem numero ID de 4 \'e0 16 com clausura AND\par
+\par
+SELECT IDtipoAcompanhante,nomeTipoAcompanhante FROM tb_tipoacompanhante WHERE IDtipoAcompanhante > 3 AND IDtipoAcompanhante < 17;\par
+\par
+-- Selecionando e organizando por prioridade [ASC] - > ascendente [DESC] Descendente\par
+\par
+SELECT * FROM tb_tipomedico ORDER BY nomeTipoMedico ASC;\par
+\par
+-- SELECIONAR O MAIOR NUMERO DE UMA LISTA\par
+SELECT MAX(id_autor) FROM tb_autores;\par
+\par
+-- SELECIONAR O MENOR NUMERO DE UMA LISTA\par
+SELECT MIN(id_autor) FROM tb_autores;\par
+\par
+-- SELECIONAR MEDIA\par
+SELECT AVG(id_autor) FROM tb_autores;\par
+\par
+-- MOSTRAR SOMA\par
+SELECT SUM(id_autor) FROM tb_autores;\par
+\par
+-- SELECIONAR QUANTOS CAMPOS TEM REGISTRADO\par
+SELECT COUNT(*) FROM tb_autores;\par
+\par
+-- Selecionar o nome dos usuarios e seus respectivos exames\par
+SELECT nomeUsuario, nome FROM tb_usuario INNER JOIN tb_exame ON\par
+tb_usuario.IDusuario = tb_exame.IDusuario;\par
+Stores Procedures s\'e3o peda\'e7\'f5s de comandos que podem ser chamados e far\'e3o uma atividade automatica, por exemplo, temos um site que busca nome de todos os medicos que est\'e3o no banco. Ao invez de usar o SELECT * FROM tb_medico no proprio codigo do PHP. n\'f3s fazemos uma stored procedure dentro do banco que s\'f3 ser\'e1 chamada no PHP por exemplo CALL procedureNomes(parametros), stored procedures deixam o software mais rapido porque ja est\'e1 direto no banco.\par
+\par
+Mostrando nome de todos m\'e9dicos\par
+PHP:\par
+DELIMITER $$\par
+\par
+CREATE PROCEDURE mostrarNomes()\par
+\par
+  BEGIN\par
+    SELECT nomeMedico FROM tb_medico;\par
+  END$$\par
+\par
+DELIMITER;\par
+\par
+CALL mostrarNomes();\par
+Mostrar nome de quantidade determinada de m\'e9dicos\par
+PHP:\par
+CREATE PROCEDURE mostrarNomes2(IN mostrarQuantidade TINYINT)\par
+\par
+  BEGIN\par
+    SELECT nomeMedico FROM tb_medico LIMIT mostrarQuantidade;\par
+  END$$\par
+\par
+DELIMITER;\par
+\par
+CALL mostrarNomes2(3);\par
+Excluindo Procedures\par
+PHP:\par
+DROP PROCEDURE mostrarNomes2;\par
+DROP PROCEDURE mostrarNomes;\par
+}
+ 
